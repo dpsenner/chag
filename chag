@@ -27,24 +27,18 @@ Commands:
   init       Creates a new CHANGELOG.md file with a standard header.
   add        Adds a new 'Unreleased' changelog entry.
   list       Gets a list of all changelog entries.
-  latest     Get the latest tag in a changelog.
-  show       Shows the contents of the latest or another changelog entry.
+  latest     Gets the latest of the changelog entries.
+  show       Shows the changes of a changelog entry. The command shows the latest changelog entry if not specified otherwise.
   addchange  Adds a change to the latest changelog entry.
   setversion Sets the version and date of the latest changelog entry.
-  tag        Create an annotated git tag based on a changelog entry.
+  tag        Creates an annotated git tag based on a changelog entry.
 
-  create     Creates a new CHANGELOG.md file with a standard header.
-             This command is superseded by the init command.
-  entries    List all versions in a changelog file.
-             This command is superseded by the list command.
-  contents   Get the contents of a changelog entry.
-             This command is superseded by the show command.
-  update     Updates the version and date of the most recent changelog entry.
-             This command is superseded by the setversion command.
-  next       Create a new unreleased version in changelog file.
-             This command is superseded by the add command.
-  entry      Add a quick entry to the current version.
-             This command is superseded by the addchange command.
+  create     Creates a new CHANGELOG.md file with a standard header. This command is superseded by the init command.
+  entries    List all versions in a changelog file. This command is superseded by the list command.
+  contents   Get the contents of a changelog entry. This command is superseded by the show command.
+  update     Updates the version and date of the most recent changelog entry. This command is superseded by the setversion command.
+  next       Create a new unreleased version in changelog file. This command is superseded by the add command.
+  entry      Add a quick entry to the current version. This command is superseded by the addchange command.
 EOT
   exit 0
 }
