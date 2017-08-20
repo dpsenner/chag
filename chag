@@ -24,14 +24,27 @@ Options:
   --version  Displays the version number.
 
 Commands:
-  contents Get the contents of a changelog entry.
-  entries  List all versions in a changelog file.
-  latest   Get the latest tag in a changelog.
-  tag      Create an annotated git tag based on a changelog entry.
-  update   Updates the version and date of the most recent changelog entry.
-  create   Creates a new CHANGELOG.md file with a standard header.
-  entry    Add a quick entry to the current version.
-  next     Create a new unreleased version in changelog file.
+  init       Creates a new CHANGELOG.md file with a standard header.
+  add        Adds a new 'Unreleased' changelog entry.
+  list       Gets a list of all changelog entries.
+  latest     Get the latest tag in a changelog.
+  show       Shows the contents of the latest or another changelog entry.
+  addchange  Adds a change to the latest changelog entry.
+  setversion Sets the version and date of the latest changelog entry.
+  tag        Create an annotated git tag based on a changelog entry.
+
+  create     Creates a new CHANGELOG.md file with a standard header.
+             This command is superseded by the init command.
+  entries    List all versions in a changelog file.
+             This command is superseded by the list command.
+  contents   Get the contents of a changelog entry.
+             This command is superseded by the show command.
+  update     Updates the version and date of the most recent changelog entry.
+             This command is superseded by the setversion command.
+  next       Create a new unreleased version in changelog file.
+             This command is superseded by the add command.
+  entry      Add a quick entry to the current version.
+             This command is superseded by the addchange command.
 EOT
   exit 0
 }
@@ -39,6 +52,19 @@ EOT
 create_usage() {
   cat <<EOT
 Usage: chag create [--file <filename> ][--help]
+
+Creates a new file named CHANGELOG.md by default with a changelog header, if one does not exist.
+
+Options:
+  --file     Specify a custom changelog filename
+  --help     Displays this message.
+EOT
+  exit 0
+}
+
+init_usage() {
+  cat <<EOT
+Usage: chag init [--file <filename> ][--help]
 
 Creates a new file named CHANGELOG.md by default with a changelog header, if one does not exist.
 
@@ -62,6 +88,19 @@ EOT
   exit 0
 }
 
+addchange_usage() {
+  cat <<EOT
+Usage: chag addchange --contents <contents>
+
+Creates a new change item inside of the changelog's latest version with --contents as it's body.
+
+Options:
+  --contents The body of the entry.
+  --help     Displays this message.
+EOT
+  exit 0
+}
+
 next_usage() {
   cat <<EOT
 Usage: chag next
@@ -74,9 +113,37 @@ EOT
   exit 0
 }
 
+add_usage() {
+  cat <<EOT
+Usage: chag add
+
+Creates a new unreleased version inside of the changelog file.
+
+Options:
+  --help     Displays this message.
+EOT
+  exit 0
+}
+
 contents_usage() {
   cat <<EOT
 Usage: chag contents [--help] [--file <path>] [--tag <tag>]
+
+Outputs the contents of a changelog entry from a changelog file. If no
+--tag option is provided, then the top-most entry in the changelog is
+parsed.
+
+Options:
+  --file     Path to changelog. Defaults to CHANGELOG.md
+  --tag      Tag version string to parse. Defaults to the latest.
+  --help     Displays this message.
+EOT
+  exit 0
+}
+
+show_usage() {
+  cat <<EOT
+Usage: chag show [--help] [--file <path>] [--tag <tag>]
 
 Outputs the contents of a changelog entry from a changelog file. If no
 --tag option is provided, then the top-most entry in the changelog is
@@ -133,9 +200,38 @@ EOT
   exit 0
 }
 
+list_usage() {
+  cat <<EOT
+Usage: chag list [--help] [--file <path>]
+
+Lists all of the version numbers in a changelog file, separated by new lines.
+
+Options:
+  --file    Path to changelog. Defaults to CHANGELOG.md
+  --help    Displays this message.
+EOT
+  exit 0
+}
+
 update_usage() {
   cat <<EOT
 Usage: chag update [--help] [--file <path>] TAG
+
+Updates the version and date of the most recent changelog entry.
+
+Options:
+  --file    Path to changelog. Defaults to CHANGELOG.md
+  --help    Displays this message.
+
+Arguments:
+  TAG       Version number to set on the entry.
+EOT
+  exit 0
+}
+
+setversion_usage() {
+  cat <<EOT
+Usage: chag setversion [--help] [--file <path>] TAG
 
 Updates the version and date of the most recent changelog entry.
 
@@ -158,6 +254,11 @@ die() {
 # Gets the contents of a changelog entry
 contents() {
   get_entry ${TAG:=$(latest)}
+}
+
+# Shows the content of a changelog entry
+show() {
+  contents
 }
 
 tag() {
@@ -192,9 +293,20 @@ update() {
   echo "[SUCCESS] Updated ${FILENAME} with ${TAG}"
 }
 
+# Updates the latest changelog entry with the provided version and today's date
+setversion() {
+  TAG=${1:?"setversion requires a TAG"}
+  update $TAG
+}
+
 # Get a list of entry versions separated by newlines
 entries() {
   entries_and_lines | cut -d ':' -f 2
+}
+
+# Lists all version items in the changelog file
+list() {
+  entries
 }
 
 # Prints each heading "line_number:line" from the changelog separated w/ "\n"
@@ -242,6 +354,10 @@ create() {
   exit 0
 }
 
+init() {
+  create
+}
+
 entry() {
   OPOS=$(grep -n -m 1 "##" $FILENAME | cut -f1 -d:)
   if [ ! -z $OPOS ]; then
@@ -260,16 +376,28 @@ entry() {
   exit 0
 }
 
+addchange() {
+  entry $@
+}
+
 next() {
+  NAME="$0"
+  if [ -z $NAME ]; then
+    NAME="Unreleased"
+  fi
   # Contains a version already
   if grep -q "##" $FILENAME; then
-    sed -i "0,/##/s//## Unreleased\n\n\n##/" $FILENAME
+    sed -i "0,/##/s//## $NAME\n\n\n##/" $FILENAME
   # No previous versions
   else
-    printf "\n## Unreleased\n\n" >> $FILENAME
+    printf "\n## $NAME\n\n" >> $FILENAME
   fi
 
   exit 0
+}
+
+add() {
+  next $@
 }
 
 # Test if there is a .chag.config file and if so parse it
@@ -297,7 +425,7 @@ trim() {
 # Show the version if just --version is provided.
 [ "$1" == '--version' ] && version && exit 0
 # Ensure a valid command was passed.
-VALID="contents|tag|latest|entries|update|entry|next|create"
+VALID="contents|show|tag|latest|entries|list|update|setversion|entry|addchange|next|add|create|init"
 [[ $VALID == *$1* ]] || die "Available commands: ${VALID}"
 
 COMMAND="$1"; shift
