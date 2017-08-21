@@ -2,15 +2,6 @@
 
 ## Unreleased
 
-
-## Unreleased
-
-
-## Unreleased
-
-
-## Unreleased
-
 ### Added
 
 * Added `init` command that has the same functionality as the `create` command..
