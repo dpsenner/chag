@@ -33,6 +33,7 @@ Commands:
   setversion Sets the version and date of the latest changelog entry.
   tag        Creates an annotated git tag based on a changelog entry.
 
+Deprecated commands; these commands will be removed in a future major release:
   create     Creates a new CHANGELOG.md file with a standard header. This command has been replaced with the init command.
   entries    List all versions in a changelog file. This command has been replaced with the list command.
   contents   Get the contents of a changelog entry. This command has been replaced with the show command.
