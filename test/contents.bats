@@ -2,25 +2,25 @@
 
 load test_helper
 
-@test "--help prints contents help" {
+@test "contents: --help prints help" {
   run ./chag contents --help
   [ $status -eq 0 ]
   [ $(expr "${lines[0]}" : "Usage: chag contents") -ne 0 ]
 }
 
-@test "Invalid options fail" {
+@test "contents: invalid options fail" {
   run ./chag contents --foo
   [ $status -eq 1 ]
   [ "${lines[0]}" == "[FAILURE] Unknown option '--foo'" ]
 }
 
-@test "contents ensures FILENAME exists" {
+@test "contents: ensures FILENAME exists" {
   run ./chag contents --file /path/to/does/not/exist
   [ $status -eq 1 ]
   [ "${lines[0]}" == "[FAILURE] File not found: /path/to/does/not/exist" ]
 }
 
-@test "contents ensures the tag exists" {
+@test "contents: ensures the tag exists" {
   setup_changelog
   run ./chag contents --file $CHNGFILE --tag 9.9.9
   delete_changelog
@@ -28,7 +28,7 @@ load test_helper
   [ "${lines[0]}" == "[FAILURE] Tag not found" ]
 }
 
-@test "contents can contents a tag" {
+@test "contents: can contents a tag" {
   setup_changelog
   run ./chag contents --file $CHNGFILE --tag 0.0.1
   delete_changelog
@@ -36,7 +36,7 @@ load test_helper
   [ "${lines[0]}" == "* Initial release." ]
 }
 
-@test "contents can contents the latest tag" {
+@test "contents: can contents the latest tag" {
   setup_changelog
   run ./chag contents --file $CHNGFILE
   delete_changelog
