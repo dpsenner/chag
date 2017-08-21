@@ -18,12 +18,6 @@
   [ "${#lines[@]}" -gt 3 ]
 }
 
-@test "chag: invalid options fail" {
-  run ./chag contents --foo
-  [ $status -eq 1 ]
-  [ "${lines[0]}" == "[FAILURE] Unknown option '--foo'" ]
-}
-
 @test "chag: invalid commands fail" {
   run ./chag foo
   [ $status -eq 1 ]
