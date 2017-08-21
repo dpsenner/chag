@@ -33,12 +33,12 @@ Commands:
   setversion Sets the version and date of the latest changelog entry.
   tag        Creates an annotated git tag based on a changelog entry.
 
-  create     Creates a new CHANGELOG.md file with a standard header. This command is superseded by the init command.
-  entries    List all versions in a changelog file. This command is superseded by the list command.
-  contents   Get the contents of a changelog entry. This command is superseded by the show command.
-  update     Updates the version and date of the most recent changelog entry. This command is superseded by the setversion command.
-  next       Create a new unreleased version in changelog file. This command is superseded by the add command.
-  entry      Add a quick entry to the current version. This command is superseded by the addchange command.
+  create     Creates a new CHANGELOG.md file with a standard header. This command has been replaced with the init command.
+  entries    List all versions in a changelog file. This command has been replaced with the list command.
+  contents   Get the contents of a changelog entry. This command has been replaced with the show command.
+  update     Updates the version and date of the most recent changelog entry. This command has been replaced with the setversion command.
+  next       Create a new unreleased version in changelog file. This command has been replaced with the add command.
+  entry      Add a quick entry to the current version. This command has been replaced with the addchange command.
 EOT
   exit 0
 }
@@ -47,7 +47,7 @@ create_usage() {
   cat <<EOT
 Usage: chag create [--file <filename> ][--help]
 
-Creates a new file named CHANGELOG.md by default with a changelog header, if one does not exist.
+Creates a new file named CHANGELOG.md by default with a changelog header, if one does not exist. This command has been replaced by the init command.
 
 Options:
   --file     Specify a custom changelog filename
@@ -73,7 +73,7 @@ entry_usage() {
   cat <<EOT
 Usage: chag entry --contents <contents>
 
-Creates a new entry inside of the changelog's latest version with --contents as it's body.
+Creates a new entry inside of the changelog's latest version with --contents as it's body. This command has been replaced with the addchange command.
 
 Options:
   --contents The body of the entry.
@@ -99,7 +99,7 @@ next_usage() {
   cat <<EOT
 Usage: chag next
 
-Creates a new unreleased version inside of the changelog file.
+Creates a new unreleased version inside of the changelog file. This command has been replaced with the add command.
 
 Options:
   --help     Displays this message.
@@ -125,7 +125,7 @@ Usage: chag contents [--help] [--file <path>] [--tag <tag>]
 
 Outputs the contents of a changelog entry from a changelog file. If no
 --tag option is provided, then the top-most entry in the changelog is
-parsed.
+parsed. This command has been replaced by the show command.
 
 Options:
   --file     Path to changelog. Defaults to CHANGELOG.md
@@ -185,7 +185,7 @@ entries_usage() {
   cat <<EOT
 Usage: chag entries [--help] [--file <path>]
 
-Lists all of the version numbers in a changelog file, separated by new lines.
+Lists all of the version numbers in a changelog file, separated by new lines. This command has been replaced by the list command.
 
 Options:
   --file    Path to changelog. Defaults to CHANGELOG.md
@@ -211,7 +211,7 @@ update_usage() {
   cat <<EOT
 Usage: chag update [--help] [--file <path>] TAG
 
-Updates the version and date of the most recent changelog entry.
+Updates the version and date of the most recent changelog entry. This command has been replaced by the setversion command.
 
 Options:
   --file    Path to changelog. Defaults to CHANGELOG.md
