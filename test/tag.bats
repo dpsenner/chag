@@ -4,19 +4,19 @@ load test_helper
 
 chagcmd="$BATS_TEST_DIRNAME/../chag"
 
-@test "--help prints tag help" {
+@test "tag: --help prints help" {
   run ./chag tag --help
   [ $status -eq 0 ]
   [ $(expr "${lines[0]}" : "Usage: chag tag") -ne 0 ]
 }
 
-@test "tag ensures FILENAME exists" {
+@test "tag: ensures FILENAME exists" {
   run ./chag tag --file /path/to/does/not/exist 0.0.1
   [ $status -eq 1 ]
   [ "${lines[0]}" == "[FAILURE] File not found: /path/to/does/not/exist" ]
 }
 
-@test "Tags debug output" {
+@test "tag: tags debug output" {
   setup_repo
   run $chagcmd tag --file CHANGELOG.md
   [ $status -eq 0 ]
@@ -33,7 +33,7 @@ chagcmd="$BATS_TEST_DIRNAME/../chag"
   delete_repo
 }
 
-@test "Can force a tag" {
+@test "tag: can force a tag" {
   setup_repo
   run $chagcmd tag --file CHANGELOG.md 0.0.2
   [ $status -eq 0 ]
