@@ -10,6 +10,9 @@
 * Added `show` command that has the same functionality as the `contents` command.
 * Added `addchange` command that has the same functionality as the `entry` command.
 * Added `setversion` command that has the same functionality as the `update` command.
+* Added `tag` test case to assert that the command does not fail with an empty .chag.config file
+* Added `tag` test case to assert that the command does not fail with a .chag.config file that contains only tags
+* Added `tag` test case to assert that the command does prefix tags when the .chag.config contains `addv=yes`.
 
 ### Changed
 
