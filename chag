@@ -111,7 +111,7 @@ add_usage() {
   cat <<EOT
 Usage: chag add
 
-Creates a new unreleased version inside of the changelog file.
+Adds a new 'Unreleased' changelog entry inside of the changelog file.
 
 Options:
   --help     Displays this message.
