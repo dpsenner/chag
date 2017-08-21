@@ -290,6 +290,7 @@ setversion() {
 
 # Updates the latest changelog entry with the provided version and today's date
 update() {
+  TAG=${1:?"update requires a TAG"}
   setversion $@
 }
 
