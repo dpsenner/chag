@@ -247,7 +247,7 @@ die() {
 
 # Gets the contents of a changelog entry
 contents() {
-  show $@
+  show
 }
 
 # Shows the content of a changelog entry
@@ -374,7 +374,6 @@ entry() {
 }
 
 add() {
-  NAME="$0"
   if [ -z $NAME ]; then
     NAME="Unreleased"
   fi
@@ -390,7 +389,7 @@ add() {
 }
 
 next() {
-  add $@
+  add
 }
 
 # Test if there is a .chag.config file and if so parse it
