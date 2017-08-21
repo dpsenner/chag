@@ -247,12 +247,12 @@ die() {
 
 # Gets the contents of a changelog entry
 contents() {
-  get_entry ${TAG:=$(latest)}
+  show $@
 }
 
 # Shows the content of a changelog entry
 show() {
-  contents
+  get_entry ${TAG:=$(latest)}
 }
 
 tag() {
@@ -279,8 +279,8 @@ tag() {
 }
 
 # Updates the top changelog entry with the provided version and today's date
-update() {
-  TAG=${1:?"update requires a TAG"}
+setversion() {
+  TAG=${1:?"setversion requires a TAG"}
   start=$(find_entry $(latest))
   local replacement="## $TAG - $(date +%Y-%m-%d)"
   perl -i -pe "s/.*/$replacement/ if \$.==${start}" $FILENAME
@@ -288,19 +288,18 @@ update() {
 }
 
 # Updates the latest changelog entry with the provided version and today's date
-setversion() {
-  TAG=${1:?"setversion requires a TAG"}
-  update $TAG
+update() {
+  setversion $@
 }
 
 # Get a list of entry versions separated by newlines
 entries() {
-  entries_and_lines | cut -d ':' -f 2
+  list $@
 }
 
 # Lists all version items in the changelog file
 list() {
-  entries
+  entries_and_lines | cut -d ':' -f 2
 }
 
 # Prints each heading "line_number:line" from the changelog separated w/ "\n"
@@ -341,18 +340,18 @@ get_entry() {
   trim "$(sed -n "$((found_line + 1))","$end_line"p < $FILENAME)"
 }
 
-create() {
+init() {
   HEADER="# CHANGELOG\n"
   [ -f "$FILENAME" ] || printf "${HEADER}" >> $FILENAME
 
   exit 0
 }
 
-init() {
-  create
+create() {
+  init $@
 }
 
-entry() {
+addchange() {
   OPOS=$(grep -n -m 1 "##" $FILENAME | cut -f1 -d:)
   if [ ! -z $OPOS ]; then
     WLTOTAL=$(cat $FILENAME | wc -l)
@@ -370,11 +369,11 @@ entry() {
   exit 0
 }
 
-addchange() {
-  entry $@
+entry() {
+  addchange $@
 }
 
-next() {
+add() {
   NAME="$0"
   if [ -z $NAME ]; then
     NAME="Unreleased"
@@ -390,8 +389,8 @@ next() {
   exit 0
 }
 
-add() {
-  next $@
+next() {
+  add $@
 }
 
 # Test if there is a .chag.config file and if so parse it
