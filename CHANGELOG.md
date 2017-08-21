@@ -1,5 +1,25 @@
 # CHANGELOG
 
+## Unreleased
+
+### Added
+
+* Added `init` command that has the same functionality as the `create` command..
+* Added `add` command that has the same functionality as the `next` command.
+* Added `list` command that has the same functionality as the `entries` command.
+* Added `show` command that has the same functionality as the `contents` command.
+* Added `addchange` command that has the same functionality as the `entry` command.
+* Added `setversion` command that has the same functionality as the `update` command.
+
+### Changed
+
+* Changed the `create` command to be an alias for the `init` command. The command is deprecated and will be removed in a future major release.
+* Changed the `next` command to be an alias for the `add` command. The command is deprecated and will be removed in a future major release.
+* Changed the `entries` command to be an alias for the `list` command. The command is deprecated and will be removed in a future major release.
+* Changed the `contents` command to be an alias for the `show` command. The command is deprecated and will be removed in a future major release.
+* Changed the `entry` command to be an alias for the `addchange` command. The command is deprecated and will be removed in a future major release.
+* Changed the `update` command to be an alias for the `setversion` command. The command is deprecated and will be removed in a future major release.
+
 ## 1.2.1 - 2017-08-18
 
 * Reverted grep command to its original behavior
