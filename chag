@@ -440,8 +440,8 @@ done
 
 if [ -z "$FILENAME" ]; then
   FILENAME=`pwd`"/CHANGELOG.md"
-  ([ -f "$FILENAME" ] || [ $COMMAND == "create" ]) || FILENAME=`pwd`"/CHANGELOG"
+  ([ -f "$FILENAME" ] || [ $COMMAND == "init" ] || [ $COMMAND == "create" ]) || FILENAME=`pwd`"/CHANGELOG"
 fi
-([ -f "$FILENAME" ] || [ $COMMAND == "create" ]) || die "File not found: $FILENAME"
+([ -f "$FILENAME" ] || [ $COMMAND == "init" ] || [ $COMMAND == "create" ]) || die "File not found: $FILENAME"
 
 $COMMAND $opt $@
